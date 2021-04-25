@@ -7,14 +7,26 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "@coreui/coreui": "~3.0.0",
+    "@coreui/icons": "~1.0.1",
+    "@coreui/utils": "~1.2.2",
+    "@coreui/vue": "~3.0.0",
+    "@coreui/vue-chartjs": "~1.0.3",
+    "axios": "^0.20.0",
     "core-js": "^3.6.5",
+    "moment": "^2.29.1",
+    "nanobar": "^0.4.2",
+    "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
+    "vue-meta": "^2.4.0",
     "vue-property-decorator": "^9.1.2",
     "vue-router": "^3.2.0",
+    "vuelidate": "^0.7.5",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@types/vuelidate": "^0.7.13",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",

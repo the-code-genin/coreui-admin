@@ -24,7 +24,7 @@ export default {
         },
         {
           name: 'New',
-          to: {name: 'Create New Admin'}
+          to: {name: 'Create Admin'}
         },
       ]
     },

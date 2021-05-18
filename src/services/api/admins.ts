@@ -65,6 +65,7 @@ export default {
 
     async update(id: number, data: {
         name?: string,
+        email?: string,
         password?: string,
         status?: 'active'|'banned'
     }): Promise<Admin> {

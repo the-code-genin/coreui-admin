@@ -12,6 +12,18 @@ declare interface CoreUIStoreState {
     [key: string]: any
 }
 
+declare interface ApiResponse {
+    success: boolean,
+    payload: {
+        [key: string]: any
+    },
+    error: {
+        code: number,
+        type: string,
+        message: string,
+    }
+}
+
 // Static modules
 declare module '*.png';
 declare module '*.jpg';

@@ -1,4 +1,23 @@
-// Don't declare types in this file
+declare interface CoreUIStoreState {
+    sidebarShow: 'responsive' | boolean,
+    sidebarMinimize: boolean,
+    [key: string]: any
+}
 
-/// <reference path="./interfaces.d.ts" />
-/// <reference path="./functions.d.ts" />
+declare interface ApiResponse {
+    success: boolean,
+    payload: {
+        [key: string]: any
+    },
+    error: {
+        code: number,
+        type: string,
+        message: string,
+    }
+}
+
+// Static modules
+declare module '*.png';
+declare module '*.jpg';
+declare module '*.svg';
+declare module '*.json';

@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import banner from '@/assets/images/logo-banner-dark.png'
+import banner from '@/assets/images/Logo.png'
 import TheHeaderDropdownAccnt from './TheHeaderDropdownAccnt.vue'
 
 export default Vue.extend({

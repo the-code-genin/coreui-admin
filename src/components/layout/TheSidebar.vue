@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import banner from '@/assets/images/logo-banner-light.png'
+import banner from '@/assets/images/Logo.png'
 import nav from './_nav'
 
 export default Vue.extend<any, any, any, never>({

@@ -1,32 +1,27 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
     <router-view/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script type="text/typescript">
+import Vue from 'vue';
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default Vue.extend({
+  metaInfo() {
+    return {
+      title: "Admin Panel",
+      titleTemplate: '%s - Admin Panel',
+      meta: [
+        {name: 'description', content:  'Welcome to the admin panel'},
+        {property: 'og:title', content: "Admin Panel"},
+        {property: 'og:site_name', content: 'Admin Panel'},
+        {property: 'og:type', content: 'Home page'},
+        {property: 'og:url', content: process.env.BASE_URL},
+        {property: 'og:image', content: process.env.BASE_URL + 'favicon.ico'},
+        {name: 'robots', content: 'index,follow'},
+      ]
     }
-  }
-}
-</style>
+	}
+});
+</script>

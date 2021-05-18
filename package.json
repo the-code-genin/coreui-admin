@@ -13,6 +13,7 @@
     "@coreui/vue": "~3.0.0",
     "@coreui/vue-chartjs": "~1.0.3",
     "@the_code_genin/vue-auth": "^1.0.3",
+    "@the_code_genin/vue-nanobar": "^1.0.0",
     "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",

@@ -1,29 +1,28 @@
 import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
+import VueRouter from 'vue-router'
+import DashboardRoutes from './dashboard'
+import AuthRoutes from './auth'
 
-Vue.use(VueRouter)
-
-const routes: Array<RouteConfig> = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
-})
+  routes: [
+    // {
+    //   path: '/401',
+    //   name: 'AccessDenied',
+    //   component: () => import('@/views/AccessDenied.vue')
+    // },
+    {
+      path: '*',
+      name: 'NotFound',
+      component: () => import('@/views/NotFound.vue'),
+    }
+  ]
+});
 
-export default router
+router.addRoutes(DashboardRoutes);
+router.addRoutes(AuthRoutes);
+
+export default router;

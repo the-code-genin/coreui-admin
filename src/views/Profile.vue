@@ -112,7 +112,7 @@
 import Vue from 'vue'
 import auth from '@/services/api/auth';
 import {required, minLength, requiredIf, sameAs} from 'vuelidate/lib/validators'
-import Admin from '@/models/admin';
+import User from '@/models/user';
 
 export default Vue.extend<any, any, any, any>({
   name: 'Profile',
@@ -180,7 +180,7 @@ export default Vue.extend<any, any, any, any>({
     },
   },
   async created() {
-    this.name = (this.authUser as Admin).name;
+    this.name = (this.authUser as User).name;
   },
   metaInfo() {
     return {

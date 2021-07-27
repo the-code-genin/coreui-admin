@@ -83,7 +83,7 @@ export default Vue.extend<any, any, any, never>({
       this.formStatus = 'SUBMITTING';
 
       try {
-        // let response = await auth.requestPasswordResetEmail(this.formData);
+        let response = await auth.requestPasswordResetEmail(this.formData);
         this.formStatus = 'SUCCESS';
       } catch (message) {
         this.formError = message;

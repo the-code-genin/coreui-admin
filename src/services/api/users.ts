@@ -1,19 +1,21 @@
 import connector from './api-connector'
 import { AxiosResponse } from 'axios'
-import Admin from '@/models/admin'
-import auth from './auth'
+import User from '@/models/user'
+import AuthService from './auth'
+import ApiResponse from '@/lib/api-response';
 
 
-export default {
-    async getAll(params?: {
+export default class UserService {
+    static async getAll(params?: {
+        status?: "active" | "banned",
         page?: number,
         perPage?: number,
         keyword?: string,
         order?: string,
-    }): Promise<{[key: string]: number|Admin[]}> {
-        let token = await auth.getToken();
+    }): Promise<{ [key: string]: number | User[] }> {
+        let token = await AuthService.getToken();
 
-        let response: AxiosResponse<ApiResponse> = await connector.get('api/v1/admins', {
+        let response: AxiosResponse<ApiResponse> = await connector.get('api/v1/users', {
             params,
             headers: {
                 Authorization: `Bearer ${token}`
@@ -24,15 +26,15 @@ export default {
         else if (!response.data.success) throw response.data.error.message;
 
         let payload = response.data.payload;
-        payload.data = payload.data.map((role: any) => Admin.fromJson(role));
+        payload.data = payload.data.map((data: any) => User.fromJSON(data));
 
         return payload;
-    },
+    }
 
-    async get(id: number): Promise<Admin> {
-        let token = await auth.getToken();
+    static async get(id: number): Promise<User> {
+        let token = await AuthService.getToken();
 
-        let response: AxiosResponse<ApiResponse> = await connector.get(`api/v1/admins/${id}`, {
+        let response: AxiosResponse<ApiResponse> = await connector.get(`api/v1/users/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -41,17 +43,17 @@ export default {
         if (response.status != 200) throw 'An error occured while connecting with the API';
         else if (!response.data.success) throw response.data.error.message;
 
-        return Admin.fromJson(response.data.payload.data);
-    },
+        return User.fromJSON(response.data.payload.data);
+    }
 
-    async store(data: {
+    static async store(data: {
         name: string,
         email: string,
         password: string
-    }): Promise<Admin> {
-        let token = await auth.getToken();
+    }): Promise<User> {
+        let token = await AuthService.getToken();
 
-        let response: AxiosResponse<ApiResponse> = await connector.post('api/v1/admins', data, {
+        let response: AxiosResponse<ApiResponse> = await connector.post('api/v1/users', data, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -60,18 +62,18 @@ export default {
         if (response.status != 200) throw 'An error occured while contacting the server.';
         if (!response.data.success) throw response.data.error.message;
 
-        return Admin.fromJson(response.data.payload.data);
-    },
+        return User.fromJSON(response.data.payload.data);
+    }
 
-    async update(id: number, data: {
+    static async update(id: number, data: {
         name?: string,
         email?: string,
         password?: string,
-        status?: 'active'|'banned'
-    }): Promise<Admin> {
-        let token = await auth.getToken();
+        status?: 'active' | 'banned'
+    }): Promise<User> {
+        let token = await AuthService.getToken();
 
-        let response: AxiosResponse<ApiResponse> = await connector.patch(`api/v1/admins/${id}`, data, {
+        let response: AxiosResponse<ApiResponse> = await connector.patch(`api/v1/users/${id}`, data, {
             headers: {
                 Authorization: `Bearer ${token}`
             },
@@ -80,13 +82,13 @@ export default {
         if (response.status != 200) throw 'An error occured while contacting the server.';
         if (!response.data.success) throw response.data.error.message;
 
-        return Admin.fromJson(response.data.payload.data);
-    },
+        return User.fromJSON(response.data.payload.data);
+    }
 
-    async delete(id: number): Promise<Boolean> {
-        let token = await auth.getToken();
+    static async delete(id: number): Promise<Boolean> {
+        let token = await AuthService.getToken();
 
-        let response: AxiosResponse<ApiResponse> = await connector.delete(`api/v1/admins/${id}`, {
+        let response: AxiosResponse<ApiResponse> = await connector.delete(`api/v1/users/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             },

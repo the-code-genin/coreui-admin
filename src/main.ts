@@ -8,7 +8,7 @@ import { iconsSet as icons } from './assets/icons/icons'
 import VueMeta from 'vue-meta'
 import Vuelidate from 'vuelidate'
 import ScrollToTop from '@/lib/plugins/scroll-to-top'
-import Admin from '@/models/admin'
+import User from '@/models/user'
 import Auth from '@/services/api/auth'
 import VueNanoBar from '@the_code_genin/vue-nanobar'
 import VueAuth from '@the_code_genin/vue-auth'
@@ -35,7 +35,7 @@ Vue.use(new VueAuth, {
     name: 'Logout',
     path: '/logout'
   },
-  async getUser(): Promise<Admin> {
+  async getUser(): Promise<User> {
     return await Auth.index();
   },
   async logout(): Promise<void> {

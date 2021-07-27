@@ -1,5 +1,5 @@
-export default {
-    encode(file: File): Promise<string> {
+export default class base64Encoder {
+    static encode(file: File): Promise<string> {
         return new Promise((resolve, reject) => {
             let reader = new FileReader();
             

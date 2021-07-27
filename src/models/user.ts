@@ -1,6 +1,6 @@
 import moment, { Moment } from 'moment'
 
-export default class Admin {
+export default class User {
     readonly created_at: Moment
     readonly updated_at: Moment
 
@@ -16,8 +16,8 @@ export default class Admin {
         this.updated_at = moment.utc(updated_at);
     }
 
-    static fromJson(json: any): Admin {
-        return new Admin(
+    static fromJson(json: any): User {
+        return new User(
             json.id,
             json.name,
             json.email,

@@ -1,17 +1,17 @@
 import connector from './api-connector'
 import { AxiosResponse } from 'axios'
-import Admin from '@/models/admin'
-import moment from 'moment'
+import User from '@/models/user'
+import ApiResponse from '@/lib/api-response'
 
 
 export default {
     /**
      * Get the current logged in user.
      */
-    async index(): Promise<Admin> {
+    async index(): Promise<User> {
         let token = await this.getToken();
 
-        let response: AxiosResponse<ApiResponse> = await connector.get('api/v1/auth', {
+        let response: AxiosResponse<ApiResponse> = await connector.get('api/v1/auth/me', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -20,7 +20,7 @@ export default {
         if (response.status != 200) throw 'An error occured while contacting the server.';
         if (!response.data.success) throw response.data.error.message;
 
-        return Admin.fromJson(response.data.payload.data);
+        return User.fromJSON(response.data.payload.data);
     },
 
     // /**
@@ -58,7 +58,6 @@ export default {
 
         // Remove the token from storage.
         localStorage.removeItem('access_token');
-        localStorage.removeItem('access_token_expires_at');
 
         return response.data.payload;
     },
@@ -67,45 +66,51 @@ export default {
      * Login
      */
     async login(data: {
-        email: string, 
+        email: string,
         password: string
     }): Promise<{
-        data: Admin,
+        data: User,
         access_token: string,
-        token_type: string,
-        expires_in: number
+        token_type: string
     }> {
         let response: AxiosResponse<ApiResponse> = await connector.post('api/v1/auth/login', data);
 
         if (response.status != 200) throw 'An error occured while contacting the server.';
         if (!response.data.success) throw response.data.error.message;
 
-        // Set the expiry.
-        let expiry = moment().add(<number>response.data.payload.expires_in, 'seconds');
-
         // Save the api token.
         localStorage.setItem('access_token', <string>response.data.payload.access_token);
-        localStorage.setItem('access_token_expires_at', expiry.unix().toString());
 
         return {
-            data: Admin.fromJson(response.data.payload.data),
+            data: User.fromJSON(response.data.payload.data),
             access_token: response.data.payload.access_token as string,
-            token_type: response.data.payload.token_type as string,
-            expires_in: response.data.payload.expires_in as number,
+            token_type: response.data.payload.token_type as string
         };
     },
 
-    // /**
-    //  * Request password reset email for the user.
-    //  */
-    // async requestPasswordResetEmail(data: {email: string}): Promise<object> {
-    //     let response: AxiosResponse<ApiResponse> = await connector.post('api/v1/auth/request-password-reset-email', data);
+    /**
+     * Request password reset email for the user.
+     */
+    async requestPasswordResetEmail(data: { email: string }): Promise<object> {
+        let response: AxiosResponse<ApiResponse> = await connector.post('api/v1/auth/request-password-reset-email', data);
 
-    //     if (response.status != 200) throw 'An error occured while contacting the server.';
-    //     if (!response.data.success) throw response.data.error.message;
+        if (response.status != 200) throw 'An error occured while contacting the server.';
+        if (!response.data.success) throw response.data.error.message;
 
-    //     return response.data.payload;
-    // },
+        return response.data.payload;
+    },
+
+    /**
+     * Reset password
+     */
+    async resetPassword(data: { email: string, reset_token: string, password: string }): Promise<object> {
+        let response: AxiosResponse<ApiResponse> = await connector.post('api/v1/auth/reset-email', data);
+
+        if (response.status != 200) throw 'An error occured while contacting the server.';
+        if (!response.data.success) throw response.data.error.message;
+
+        return response.data.payload;
+    },
 
     /**
      * Update the user profile
@@ -113,7 +118,7 @@ export default {
     async updateProfile(data: {
         name?: string,
         password?: string,
-    }): Promise<Admin> {
+    }): Promise<User> {
         let token = await this.getToken();
 
         let response: AxiosResponse<ApiResponse> = await connector.patch('api/v1/auth', data, {
@@ -125,38 +130,18 @@ export default {
         if (response.status != 200) throw 'An error occured while contacting the server.';
         if (!response.data.success) throw response.data.error.message;
 
-        return Admin.fromJson(response.data.payload.data);
+        return User.fromJSON(response.data.payload.data);
     },
 
     /**
      * Get the api access token.
      */
     async getToken(): Promise<string> {
-        let token = <string> localStorage.getItem('access_token');
-        let tokenExpiresAt = Number(localStorage.getItem('access_token_expires_at'));
-        if (!/^.+\..+\..+$/.test(token) || tokenExpiresAt == null) {
+        let token = <string>localStorage.getItem('access_token');
+        if (!/^.+\..+\..+$/.test(token)) {
             throw new Error('Access token not set');
         }
 
-        // Expired token
-        if (moment.unix(tokenExpiresAt).isSameOrBefore(moment())) {
-            let response: AxiosResponse<ApiResponse> = await connector.post('api/v1/auth/refresh', {}, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            if (response.status != 200) throw 'An error occured while contacting the server.';
-            if (!response.data.success) throw response.data.error.message;
-
-            // Set the expiry.
-            let expiry = moment().add(<number>response.data.payload.expires_in, 'seconds');
-
-            // Save the api token.
-            localStorage.setItem('access_token', <string>response.data.payload.access_token);
-            localStorage.setItem('access_token_expires_at', expiry.unix().toString());
-
-            return <string>response.data.payload.access_token;
-        } else return token;
+        return token;
     }
 }

@@ -33,11 +33,11 @@
     </CAlert>
 
     <CRow class="mt-5">
-      <!-- <CCol col="6" class="text-left">
+      <CCol col="6" class="text-left">
         <CButton :to="{name: 'ForgotPassword'}" color="link" class="px-0">
           Forgot password?
         </CButton>
-      </CCol> -->
+      </CCol>
 
       <CCol col="6" class="text-right offset-md-6">
         <CButton 

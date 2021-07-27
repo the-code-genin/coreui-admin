@@ -100,9 +100,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import admins from '@/services/api/admins'
+import users from '@/services/api/users'
 import ConfirmationModal from '@/components/ConfirmationModal.vue'
-import Admin from '@/models/admin'
+import User from '@/models/user'
 
 export default Vue.extend<any, any, any, any>({
   name: 'AllAdmins',
@@ -196,7 +196,7 @@ export default Vue.extend<any, any, any, any>({
         this.deleteError = null;
         
         try {
-          let response = await admins.delete(id);
+          let response = await users.delete(id);
           this.showDeleteModal = false;
           this.fetchItems();
         } catch(e) {
@@ -211,14 +211,13 @@ export default Vue.extend<any, any, any, any>({
       this.disableDeleteModal= false;
       this.deleteError = null;
     },
-    async switchItemStatus(admin: Admin) {
+    async switchItemStatus(admin: User) {
       let draw = Math.random();
       this.draw = draw;
       this.loading = true;
 
       try {
-        let response = await admins.update(admin.id, {
-          name: admin.name,
+        let response = await users.update(admin.id, {
           status: admin.status == 'active' ? 'banned' : 'active'
         });
       } catch(e) {
@@ -233,7 +232,7 @@ export default Vue.extend<any, any, any, any>({
       this.loading = true;
 
       try {
-        let response = await admins.getAll({
+        let response = await users.getAll({
           page: this.currentPage,
           perPage: this.perPage,
           keyword: this.tableFilterValue,

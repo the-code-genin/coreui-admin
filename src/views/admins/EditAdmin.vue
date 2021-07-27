@@ -68,7 +68,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import {required} from 'vuelidate/lib/validators'
-import admins from '@/services/api/admins'
+import users from '@/services/api/users'
 
 export default Vue.extend<any, any, any, any>({
   name: 'EditAdmin',
@@ -79,7 +79,7 @@ export default Vue.extend<any, any, any, any>({
       this.formStatus = 'SUBMITTING';
 
       try {
-        let response = await admins.update(this.admin.id, this.formData);
+        let response = await users.update(this.admin.id, this.formData);
         this.formStatus = 'SUCCESS';
       } catch (message) {
         this.formError = message;
@@ -122,7 +122,7 @@ export default Vue.extend<any, any, any, any>({
     if (adminId == null) this.$router.push('/404');
 
     try {
-      let admin = await admins.get(adminId);
+      let admin = await users.get(adminId);
       this.admin = admin;
 
       this.$v.name.$model = admin.name;

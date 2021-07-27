@@ -82,7 +82,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import {required, email, minLength, numeric} from 'vuelidate/lib/validators'
-import admins from '@/services/api/admins';
+import users from '@/services/api/users';
 
 export default Vue.extend<any, any, any, any>({
   name: 'CreateAdmin',
@@ -93,7 +93,7 @@ export default Vue.extend<any, any, any, any>({
       this.formStatus = 'SUBMITTING';
 
       try {
-        let response = await admins.store(this.formData);
+        let response = await users.store(this.formData);
         this.formStatus = 'SUCCESS';
         this.$router.push({name: 'All Admins'});
       } catch (message) {

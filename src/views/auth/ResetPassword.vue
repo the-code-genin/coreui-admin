@@ -51,12 +51,14 @@
 <script lang="ts">
 import Vue from 'vue'
 import { required, minLength, sameAs } from 'vuelidate/lib/validators'
-import connector from '@/services/api/api-connector'
+import authService from "@/services/api/auth"
 
 export default Vue.extend<any, any, any, any>({
   name: 'ResetPassword',
   data() {
     return {
+      email: null,
+      reset_token: null,
       password: '',
       confirm_password: '',
       /** @type {'INACTIVE'|'SUBMITTING'|'FAILED'|'SUCCESS'} */
@@ -68,7 +70,8 @@ export default Vue.extend<any, any, any, any>({
     formData() {
       return {
         password: this.password,
-        confirm_password: this.confirm_password,
+        email: this.$route.query.email,
+        reset_token: this.$route.query.reset_token,
       }
     },
     formValid() {
@@ -82,10 +85,7 @@ export default Vue.extend<any, any, any, any>({
       this.formStatus = 'SUBMITTING';
 
       try {
-        let response = await connector.post(this.$route.query.url, this.formData);
-        if (response.status != 200) throw new Error('An error occured while contacting the server.');
-        if (!response.data.success) throw new Error(response.data.error.message);
-
+        let response = await authService.resetPassword(this.formData);
         this.formStatus = 'SUCCESS';
         this.$router.push({name: 'PasswordReset'});
       } catch (message) {
@@ -104,13 +104,17 @@ export default Vue.extend<any, any, any, any>({
         sameAs: sameAs('password')
       },
   },
+  created() {
+    this.email = this.$route.query.email;
+    this.reset_token = this.$route.query.reset_token;
+  },
   metaInfo() {
     return {
       title: "Reset Password",
     }
   },
   beforeRouteEnter(to, from, next) {
-    if (!to.query.url) next({name: 'NotFound'});
+    if (!to.query.email || !to.query.reset_token) next({name: 'NotFound'});
     else next();
   }
 });

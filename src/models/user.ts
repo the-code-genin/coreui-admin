@@ -16,7 +16,7 @@ export default class User {
         this.updated_at = moment.utc(updated_at);
     }
 
-    static fromJson(json: any): User {
+    static fromJSON(json: any): User {
         return new User(
             json.id,
             json.name,

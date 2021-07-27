@@ -16,7 +16,7 @@ export default class BlogPostCategory {
         this.updated_at = moment.utc(updated_at);
     }
 
-    static fromJson(json: any): BlogPostCategory {
+    static fromJSON(json: any): BlogPostCategory {
         return new BlogPostCategory(
             json.id,
             json.name,

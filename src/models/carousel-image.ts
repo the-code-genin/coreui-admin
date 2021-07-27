@@ -15,7 +15,7 @@ export default class CarouselImage {
         this.updated_at = moment.utc(updated_at);
     }
 
-    static fromJson(json: any): CarouselImage {
+    static fromJSON(json: any): CarouselImage {
         return new CarouselImage(
             json.id,
             json.title,

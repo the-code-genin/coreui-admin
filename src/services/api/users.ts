@@ -59,7 +59,7 @@ export default class UserService {
             },
         });
 
-        if (response.status != 200) throw 'An error occured while contacting the server.';
+        if (response.status != 201) throw 'An error occured while contacting the server.';
         if (!response.data.success) throw response.data.error.message;
 
         return User.fromJSON(response.data.payload.data);

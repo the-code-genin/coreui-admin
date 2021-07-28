@@ -100,7 +100,7 @@ export default Vue.extend<any, any, any, any>({
         // Go to transaction url page
         this.$router.go({name: 'Dashboard'});
       } catch (message) {
-        this.formError = message;
+        this.formError = "Login failed!";
         this.formStatus = 'FAILED';
       }
     }

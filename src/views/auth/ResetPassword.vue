@@ -89,7 +89,7 @@ export default Vue.extend<any, any, any, any>({
         this.formStatus = 'SUCCESS';
         this.$router.push({name: 'PasswordReset'});
       } catch (message) {
-        this.formError = message;
+        this.formError = "A server error occured.";
         this.formStatus = 'FAILED';
       }
     }

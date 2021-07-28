@@ -82,7 +82,7 @@ export default Vue.extend<any, any, any, any>({
         let response = await users.update(this.admin.id, this.formData);
         this.formStatus = 'SUCCESS';
       } catch (message) {
-        this.formError = message;
+        this.formError = "An error occured";
         this.formStatus = 'FAILED';
       }
     }

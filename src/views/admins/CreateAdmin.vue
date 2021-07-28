@@ -97,7 +97,7 @@ export default Vue.extend<any, any, any, any>({
         this.formStatus = 'SUCCESS';
         this.$router.push({name: 'All Admins'});
       } catch (message) {
-        this.formError = message;
+        this.formError = "An error occured";
         this.formStatus = 'FAILED';
       }
     }
